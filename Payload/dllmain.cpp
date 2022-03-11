@@ -86,10 +86,12 @@ BOOL CALLBACK callbackfunc(_In_ HWND hwnd, _In_ LPARAM param) {
 	if (wlp & WS_VISIBLE) {
 		if (!SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE)) {
 			// error
+			DWORD err = GetLastError();
 			std::string errstring = GetLastErrorAsString();
 			if (!errstring.empty()) {
-				wchar_t p[200];
-				mbstowcs_s(NULL, p, errstring.c_str(), 199);
+				wchar_t p[500];
+				memset(p, 0, sizeof(p));
+				wsprintf(p, L"window handle: %X, err number: %d\nerr string: %s\n", hwnd, err, errstring.c_str());
 				MessageBox(
 					NULL,
 					(LPCWSTR)p,
