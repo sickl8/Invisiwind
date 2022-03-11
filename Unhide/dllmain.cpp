@@ -88,20 +88,18 @@ BOOL CALLBACK callbackfunc(_In_ HWND hwnd, _In_ LPARAM param) {
 			// error
 			DWORD err = GetLastError();
 			std::string errstring = GetLastErrorAsString();
-			if (!errstring.empty()) {
-				wchar_t p[500];
-				wchar_t wcharerrstring[200];
-				memset(p, 0, sizeof(p));
-				memset(wcharerrstring, 0, sizeof(wcharerrstring));
-				mbstowcs_s(NULL, wcharerrstring, errstring.c_str(), 199);
-				wsprintf(p, L"window handle: %X, err number: %d\nerr string: %ls\n", hwnd, err, wcharerrstring);
-				MessageBox(
-					NULL,
-					(LPCWSTR)p,
-					(LPCWSTR)L"setwindowdisplayaffinity error",
-					MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
-				);
-			}
+			wchar_t p[500];
+			wchar_t wcharerrstring[200];
+			memset(p, 0, sizeof(p));
+			memset(wcharerrstring, 0, sizeof(wcharerrstring));
+			mbstowcs_s(NULL, wcharerrstring, errstring.c_str(), 199);
+			wsprintf(p, L"window handle: %X, err number: %d\nerr string: %ls\n", hwnd, err, wcharerrstring);
+			MessageBox(
+				NULL,
+				(LPCWSTR)p,
+				(LPCWSTR)L"setwindowdisplayaffinity error",
+				MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
+			);
 		}
 	}
 	return TRUE;
